@@ -9,8 +9,8 @@ class User(models.Model):
 
 class AudioRecord(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    audio_file = models.FileField(upload_to='audio/')
-    transcipt=models.TextField()
+    audio_file = models.CharField(max_length=255)
+    transcript=models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
 class AIResult(models.Model):
