@@ -1,9 +1,13 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
-from .models import AudioRecord, User
-from .serializers import UserSerializer, AudioRecordSerializer
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+
+from .models import AudioRecord, User
+from .serializers import UserSerializer, AudioRecordSerializer
+from .supabase_client import supabase
+
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 @api_view(['POST'])
@@ -55,12 +59,42 @@ def login(request):
 
     except User.DoesNotExist:
         return Response(
-            {'error': 'User with this email does not exist. Please register first.'},
+            {
+                'error': 'User with this email does not exist. Please register first.'
+            },
             status=404
         )
-    
+
+
 class AudioRecordViewSet(viewsets.ModelViewSet):
     queryset = AudioRecord.objects.all()
     serializer_class = AudioRecordSerializer
-    permission_classes = [IsAuthenticated] 
-    
+    permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user']
+
+    def perform_create(self, serializer):
+        audio_file = self.request.FILES.get("audio_file")
+
+        if audio_file:
+            supabase.storage.from_("audio-files").upload(
+                audio_file.name,
+                audio_file.read()
+            )
+
+        serializer.save(
+            user=self.request.user,
+            audio_file=audio_file
+        )
+
+    @action(detail=True, methods=["get"])
+    def get_audio_file(self, request, pk=None):
+        record = self.get_object()
+
+        file_name = record.audio_file.name.split("/")[-1]
+
+        download_url = supabase.storage.from_("audio-files").get_public_url(file_name)
+
+        return Response({
+            "download_url": download_url
+        })
