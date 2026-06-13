@@ -1,10 +1,15 @@
-from supabase import create_client
 import os
+from supabase import create_client
 from dotenv import load_dotenv
+
 load_dotenv()
+
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-print("supabase url:", SUPABASE_URL)
-print("supabase key starts with:", SUPABASE_KEY[:20])  # Print first 20 characters
+# Fallback to dummy values if variables aren't found (e.g., during testing/CI)
+if not SUPABASE_URL or not SUPABASE_KEY:
+    SUPABASE_URL = "https://placeholder-url.supabase.co"
+    SUPABASE_KEY = "placeholder-key-string"
+
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY) 
