@@ -1,4 +1,4 @@
-from rest_framework.decorators import api_view, action
+from rest_framework.decorators import APIView, api_view, action
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -8,6 +8,7 @@ from .serializers import UserSerializer, AudioRecordSerializer
 from .supabase_client import supabase
 
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import status
 
 
 @api_view(['POST'])
@@ -98,3 +99,22 @@ class AudioRecordViewSet(viewsets.ModelViewSet):
         return Response({
             "download_url": download_url
         })
+    
+class AISummaryView(APIView):
+    def post(self, request):
+        transcript = request.data.get("transcript", "")
+
+        if not transcript:
+            return Response(
+                {"error": "Transcript is required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Placeholder until AI API is integrated
+        return Response({
+            "transcript": transcript,
+            "summary": "AI summary will be generated here.",
+            "action_items": [],
+            "status": "skeleton"
+        })
+        
