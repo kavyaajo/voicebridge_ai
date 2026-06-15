@@ -22,7 +22,7 @@ jobs:
 
       - name: Run python backend/manage.py test
         env:
-          SUPABASE_URL: "https://placeholder-url.supabase.co"
-          SUPABASE_KEY: "placeholder-key-string"
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
         run: pytest
         
