@@ -9,6 +9,7 @@ from .supabase_client import supabase
 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
+from .ai_service import generate_summary
 
 
 @api_view(['POST'])
@@ -110,11 +111,12 @@ class AISummaryView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Placeholder until AI API is integrated
-        return Response({
-            "transcript": transcript,
-            "summary": "AI summary will be generated here.",
-            "action_items": [],
-            "status": "skeleton"
-        })
-        
+        try:
+            result = generate_summary(transcript)
+            return Response(result)
+        except Exception as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+    
