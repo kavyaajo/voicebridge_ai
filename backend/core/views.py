@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from .models import AudioRecord, User
+from .models import AudioRecord, User,AIResult
 from .serializers import UserSerializer, AudioRecordSerializer
 from .supabase_client import supabase
 
@@ -101,9 +101,12 @@ class AudioRecordViewSet(viewsets.ModelViewSet):
             "download_url": download_url
         })
     
+
+
 class AISummaryView(APIView):
     def post(self, request):
         transcript = request.data.get("transcript", "")
+        audio_id = request.data.get("audio_id")  # optional
 
         if not transcript:
             return Response(
@@ -112,8 +115,33 @@ class AISummaryView(APIView):
             )
 
         try:
+            # Generate AI summary
             result = generate_summary(transcript)
-            return Response(result)
+
+            # Save AI output if audio_id is provided
+            if audio_id:
+                try:
+                    audio_record = AudioRecord.objects.get(id=audio_id)
+
+                    AIResult.objects.update_or_create(
+                        audio=audio_record,
+                        defaults={
+                            "summary": result.get("summary", ""),
+                            "key_points": "\n".join(
+                                result.get("action_items", [])
+                            ),
+                            "translation": ""
+                        }
+                    )
+
+                except AudioRecord.DoesNotExist:
+                    return Response(
+                        {"error": "AudioRecord not found"},
+                        status=status.HTTP_404_NOT_FOUND
+                    )
+
+            return Response(result, status=status.HTTP_200_OK)
+
         except Exception as e:
             return Response(
                 {"error": str(e)},
