@@ -1,0 +1,4 @@
+site_name: VoiceBridge AI Documentation
+
+nav:
+  - Home: index.md
