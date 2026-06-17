@@ -2,13 +2,13 @@ import os
 import json
 from google import genai
 
-# Initialize Gemini client
-client = genai.Client(
-    api_key=os.getenv("GEMINI_API_KEY")
-)
 
 
 def generate_summary(transcript):
+    client = genai.Client(
+    api_key=os.getenv("GEMINI_API_KEY")
+)
+
     prompt = f"""
 Read the following transcript and return ONLY valid JSON.
 

@@ -10,6 +10,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    
+    # Defining env here makes it available across ALL steps, including pip install and django boots
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+      GEMINI_API_KEY: "dummy_key_for_testing"
 
     steps:
       - uses: actions/checkout@v4
@@ -24,5 +30,4 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-          GEMINI_API_KEY: "dummy_test_key_for_ci" # <-- Add this line
         run: python backend/manage.py test
