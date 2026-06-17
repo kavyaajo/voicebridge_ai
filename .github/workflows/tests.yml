@@ -27,4 +27,7 @@ jobs:
       - run: pip install -r backend/requirements.txt
 
       - name: Run python backend/manage.py test
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
         run: python backend/manage.py test
