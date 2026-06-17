@@ -1,0 +1,7 @@
+site_name: VoiceBridge AI Documentation
+
+theme:
+  name: mkdocs
+
+nav:
+  - Home: index.md
