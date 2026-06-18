@@ -1,0 +1,447 @@
+{
+  "info": {
+    "_postman_id": "a2597dfa-e349-421f-8243-9b72f0e8178e",
+    "name": "Voicebridge API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48403625"
+  },
+  "item": [
+    {
+      "name": "Register user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is successful\", function () {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"kav162\",\r\n    \"email\": \"kavya345@test.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/register/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "register",
+            ""
+          ]
+        },
+        "description": "Description:  \nRegisters a new user account by accepting a username and email. Returns a success message upon successful registration.\n\nExample Request Body\n\n{  \n\"username\": \"kavya\",  \n\"email\": \"test[@example.com](https://mailto:kavya@example.com)\",  \n  \n}"
+      },
+      "response": []
+    },
+    {
+      "name": "Get JWT Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Access token exists\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property(\"access\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"kavya\",\r\n    \"password\":12345\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/token/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "token",
+            ""
+          ]
+        },
+        "description": "Description:  \nObtains a new JWT access token and refresh token for a valid user.\n\nExample Request Body\n\n{  \n\"username\": \"kavya\",  \n\"password\": \"StrongPassword123\"  \n}"
+      },
+      "response": []
+    },
+    {
+      "name": "Refresh JWT Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"New access token generated\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property(\"access\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"refresh\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4MTE5NTgxNiwiaWF0IjoxNzgxMTA5NDE2LCJqdGkiOiI4MmIzNmYyYWZiNmM0ZjBlOTNiZjYwZmZjZDA4YmQ0NSIsInVzZXJfaWQiOiIxIn0._i__l5PzFjwrfcWPWH9hSTNpiKCSXaItP40LYvi3exM\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/token/refresh/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "token",
+            "refresh",
+            ""
+          ]
+        },
+        "description": "Description:  \nGenerates a new access token using a valid refresh token.\n\nExample Request Body\n\n{  \n\"refresh\": \"your_refresh_token_here\"  \n}"
+      },
+      "response": []
+    },
+    {
+      "name": "Create audio record",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Audio record created\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "\r",
+              "    pm.expect(jsonData).to.have.property(\"id\");\r",
+              "    pm.expect(jsonData).to.have.property(\"audio_file\");\r",
+              "    pm.expect(jsonData).to.have.property(\"transcript\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"User field exists\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property(\"user\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "audio_file",
+              "type": "file",
+              "uuid": "a4812117-7f76-4f3e-b66d-8307e5e57c48",
+              "src": "/C:/Users/kavya/Downloads/sample-0.mp3"
+            },
+            {
+              "key": "transcript",
+              "value": "hello world",
+              "type": "text",
+              "uuid": "491ea5d8-fe94-43ce-8c42-cb2a7822ed43"
+            },
+            {
+              "key": "user",
+              "value": "1",
+              "type": "text",
+              "uuid": "fe159e2e-d59c-48fc-98b5-baa0b5a40ef2"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/audio-records/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "audio-records",
+            ""
+          ]
+        },
+        "description": "Description:  \nUploads a new audio file for transcription and AI processing.\n\nExample Form Data\n\naudio_file: meeting_recording.wav  \ntranscript: \"Team meeting discussing project updates\"\n\nuser:1"
+      },
+      "response": []
+    },
+    {
+      "name": "http://127.0.0.1:8000/audio-records/",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "audio_file",
+              "type": "file",
+              "uuid": "ab7f55de-fcbd-42e9-bbd3-6a203249a5b9",
+              "src": "/C:/Users/kavya/Downloads/click.mp3.mp3"
+            },
+            {
+              "key": "user",
+              "value": "1",
+              "type": "text",
+              "uuid": "901d8dae-ba94-4980-a2a6-611f02a5152a"
+            },
+            {
+              "key": "transcript",
+              "value": "hello",
+              "type": "text",
+              "uuid": "4a4be53b-8c66-4849-a7a0-991b7a2c32ee"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/audio-records/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "audio-records",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "download_endpoint",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/audio-records/6/get_audio_file/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "audio-records",
+            "6",
+            "get_audio_file",
+            ""
+          ]
+        },
+        "description": "Description:  \nDownloads the audio file associated with the specified audio record.\n\nExample Request:  \nGET /audio-records/6/get_audio_file/\n\nExample Response:  \nReturns the original audio file (e.g. MP3 or WAV)."
+      },
+      "response": []
+    },
+    {
+      "name": "user filter",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/audio-records/?user=1",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "audio-records",
+            ""
+          ],
+          "query": [
+            {
+              "key": "user",
+              "value": "1"
+            }
+          ]
+        },
+        "description": "Description:  \nReturns all audio records uploaded by a specific user.\n\nExample Request:  \nGET /audio-records/?user=1\n\nExample Response:  \n\\[  \n{  \n\"id\": 1,  \n\"user\": 1,  \n\"audio_file\": \"meeting.mp3\",  \n\"transcript\": \"Hello world\"  \n}  \n\\]"
+      },
+      "response": []
+    },
+    {
+      "name": "AI endpoint",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"audio_id\":1,\r\n    \"transcript\": \"The team discussed a customer support call recording. The user reported that audio uploads were failing intermittently. Engineers decided to investigate the upload endpoint, improve retry logic, and monitor Supabase storage logs. The backend team will deploy the fix tomorrow morning.\" \r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/ai/summary/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "ai",
+            "summary",
+            ""
+          ]
+        },
+        "description": "Description:  \nGenerates an AI summary and extracts key action items from a transcript.\n\nExample Request:  \n{  \n\"audio_id\": 1,  \n\"transcript\": \"The team discussed a customer support call recording. Uploads were failing intermittently. Engineers decided to investigate the issue, improve retry logic, and monitor Supabase storage logs.\"  \n}\n\nExample Response:  \n{  \n\"summary\": \"The meeting focused on upload failures and plans to improve reliability.\",  \n\"action_items\": \\[  \n\"Investigate intermittent upload failures\",  \n\"Improve retry logic\",  \n\"Monitor Supabase storage logs\"  \n\\]  \n}"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "supabase_service_role_api_key_14bk",
+      "secret": true
+    }
+  ]
+}
