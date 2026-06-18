@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 
 class AudioRecord(models.Model):
+    """Stores uploaded audio files and their transcripts."""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     audio_file = models.FileField(upload_to="audio/")
     transcript = models.TextField()
@@ -13,6 +14,7 @@ class AudioRecord(models.Model):
 
 
 class AIResult(models.Model):
+    """Stores AI-generated summaries and key points for an audio recording."""
     audio = models.OneToOneField(AudioRecord, on_delete=models.CASCADE)
     summary = models.TextField()
     key_points = models.TextField()

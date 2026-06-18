@@ -115,3 +115,4 @@ router = DefaultRouter()
 router.register(r"audio-records", AudioRecordViewSet)
 
 urlpatterns += router.urls
+

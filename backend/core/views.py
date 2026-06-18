@@ -11,7 +11,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from .ai_service import generate_summary
 
-
+"""Registers a new user using username and email."""
 @api_view(['POST'])
 def register(request):
     username = request.data.get('username')
@@ -36,7 +36,7 @@ def register(request):
         status=201
     )
 
-
+"""Authenticates a user using their email address."""
 @api_view(['POST'])
 def login(request):
     email = request.data.get('email')
@@ -67,7 +67,7 @@ def login(request):
             status=404
         )
 
-
+"""Provides CRUD operations for uploading and managing audio records."""
 class AudioRecordViewSet(viewsets.ModelViewSet):
     queryset = AudioRecord.objects.all()
     serializer_class = AudioRecordSerializer
@@ -102,7 +102,7 @@ class AudioRecordViewSet(viewsets.ModelViewSet):
         })
     
 
-
+"""Generates AI-powered summaries and action items from transcripts."""
 class AISummaryView(APIView):
     def post(self, request):
         transcript = request.data.get("transcript", "")

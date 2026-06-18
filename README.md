@@ -164,5 +164,47 @@ Run tests with:
 ```bash
 python manage.py test
 ```
+# or
+pytest
 
 
+## 📸 Screenshots
+
+### Swagger UI
+![Swagger UI](docs/Swagger_UI.jpeg)
+
+### MkDocs Documentation
+![MkDocs](docs/MkDocs.jpeg)
+
+### AI Summary API
+![AI Summary](docs/AI_summary_endpoint.png)
+
+### Audio Upload API
+![Audio Upload](docs/audio_upload_endpoint.png)
+
+
+## Live Demo
+Deployment in progress. URL will be added soon.
+
+
+## Contributing
+Please see `CONTRIBUTING.md` for guidelines on contributing to this project.
+
+## 🔗 Postman Collection
+
+The exported Postman collection is available in this repository as `Voicebridge_API.postman_collection`.
+
+## 🏗️ Architecture Diagram
+
+```mermaid
+graph TD
+    A[User] --> B[REST API]
+    B --> C[Authentication]
+    B --> D[Audio Upload]
+    D --> E[Supabase Storage]
+    D --> F[AudioRecord Model]
+    B --> G[AI Summary Endpoint]
+    G --> H[AI Service]
+    H --> I[AIResult Model]
+    I --> J[Summary & Action Items]
+```
