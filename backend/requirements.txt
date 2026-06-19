@@ -123,3 +123,5 @@ djangorestframework
 django-filter
 drf-spectacular
 django-cors-headers
+djangorestframework-simplejwt
+psycopg2
