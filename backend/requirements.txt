@@ -121,3 +121,5 @@ pytest-django
 pytest-cov
 djangorestframework
 django-filter
+drf-spectacular
+django-cors-headers
