@@ -119,4 +119,4 @@ wrapt==2.1.2
 pytest
 pytest-django
 pytest-cov
-
+djangorestframework
