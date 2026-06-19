@@ -33,5 +33,5 @@ jobs:
       - name: Run pytest with coverage
         run: |
           cd backend
-          pytest --cov=core --cov-report=term-missing
+          python -m pytest --cov=core --cov-report=term-missing
           
