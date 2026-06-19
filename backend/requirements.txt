@@ -125,3 +125,4 @@ drf-spectacular
 django-cors-headers
 djangorestframework-simplejwt
 psycopg2
+supabase
