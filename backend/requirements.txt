@@ -120,3 +120,4 @@ pytest
 pytest-django
 pytest-cov
 djangorestframework
+django-filter
