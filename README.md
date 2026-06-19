@@ -182,6 +182,9 @@ pytest
 ### Audio Upload API
 ![Audio Upload](docs/audio_upload_endpoint.png)
 
+### Test Coverage
+![Pytest Coverage](docs/coverage_report.png)
+
 
 ## Live Demo
 Deployment in progress. URL will be added soon.
