@@ -124,6 +124,7 @@ django-filter
 drf-spectacular
 django-cors-headers
 djangorestframework-simplejwt
-psycopg2
 supabase
+psycopg2
 python-dotenv
+google-genai
