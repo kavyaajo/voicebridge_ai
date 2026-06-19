@@ -1,33 +1,37 @@
-name: Django tests
+name: Django Tests
 
 on:
   push:
     branches:
       - main
-      - "feature/*"
+      - "feature/**"
   pull_request:
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    
-    # Defining env here makes it available across ALL steps, including pip install and django boots
+
     env:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
       GEMINI_API_KEY: "dummy_key_for_testing"
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - run: pip install -r backend/requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
 
-      - name: Run python backend/manage.py test
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-        run: python backend/manage.py test
+      - name: Run pytest with coverage
+        run: |
+          cd backend
+          pytest --cov=core --cov-report=term-missing
+          
