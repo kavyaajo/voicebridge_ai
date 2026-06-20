@@ -125,7 +125,7 @@ drf-spectacular
 django-cors-headers
 djangorestframework-simplejwt
 supabase
-psycopg2
 python-dotenv
 google-genai
 gunicorn
+
