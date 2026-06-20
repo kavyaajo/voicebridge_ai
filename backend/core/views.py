@@ -83,10 +83,11 @@ class AudioRecordViewSet(viewsets.ModelViewSet):
                 audio_file.name,
                 audio_file.read()
             )
+        public_url=supabase.storage.from_("audio-files").get_public_url(audio_file.name)
 
         serializer.save(
             user=self.request.user,
-            audio_file=audio_file
+            audio_file=public_url
         )
 
     @action(detail=True, methods=["get"])
