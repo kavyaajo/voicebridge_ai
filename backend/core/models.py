@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class AudioRecord(models.Model):
     """Stores uploaded audio files and their transcripts."""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    audio_file = models.URLField()
+    audio_file = models.FileField(upload_to="audio/")
     transcript = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
