@@ -128,3 +128,4 @@ supabase
 psycopg2
 python-dotenv
 google-genai
+gunicorn
