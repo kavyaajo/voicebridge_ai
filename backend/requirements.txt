@@ -128,4 +128,5 @@ supabase
 python-dotenv
 google-genai
 gunicorn
+django-ratelimit==4.1.0
 
