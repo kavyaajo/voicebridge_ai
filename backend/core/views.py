@@ -10,6 +10,8 @@ from .supabase_client import supabase
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from .ai_service import generate_summary
+from django_ratelimit.decorators import ratelimit
+from django.utils.decorators import method_decorator
 
 """Registers a new user using username and email."""
 @api_view(['POST'])
@@ -101,12 +103,17 @@ class AudioRecordViewSet(viewsets.ModelViewSet):
             "download_url": download_url
         })
     
-
-"""Generates AI-powered summaries and action items from transcripts."""
+@method_decorator(
+    ratelimit(key='ip', rate='10/m', method='POST', block=True),
+    name='post'
+)
 class AISummaryView(APIView):
+    """Generates AI-powered summaries and action items from transcripts."""
+
     def post(self, request):
         transcript = request.data.get("transcript", "")
         audio_id = request.data.get("audio_id")  # optional
+        ...
 
         if not transcript:
             return Response(
