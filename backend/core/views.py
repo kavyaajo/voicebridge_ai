@@ -107,7 +107,7 @@ class AudioRecordViewSet(viewsets.ModelViewSet):
 
 class AISummaryView(APIView):
     """Generates AI-powered summaries and action items from transcripts."""
-    @ratelimit(key='ip', rate='10/m', method='POST', block=True)
+    @method_decorator(ratelimit(key='ip', rate='10/m', method='POST', block=True))
     def post(self, request):
         transcript = request.data.get("transcript", "")
         audio_id = request.data.get("audio_id")  # optional
