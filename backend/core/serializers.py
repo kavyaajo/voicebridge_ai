@@ -13,3 +13,16 @@ class AudioRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = AudioRecord
         fields = '__all__'
+    def validate_transcript(self, value):
+        if value and not value.strip():
+            raise serializers.ValidationError(
+                "Transcript cannot be empty."
+            )
+        return value
+
+    def validate_audio_file(self, value):
+        if not value.name.lower().endswith((".mp3", ".wav", ".m4a")):
+            raise serializers.ValidationError(
+                "Only MP3, WAV, and M4A files are allowed."
+            )                                  
+        return value 
