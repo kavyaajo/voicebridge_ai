@@ -71,7 +71,7 @@ def login(request):
 
 """Provides CRUD operations for uploading and managing audio records."""
 class AudioRecordViewSet(viewsets.ModelViewSet):
-    queryset = AudioRecord.objects.all()
+    queryset = AudioRecord.objects.select_related("user").all() 
     serializer_class = AudioRecordSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
