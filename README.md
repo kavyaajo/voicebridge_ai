@@ -94,17 +94,11 @@ python manage.py runserver
 
 ## 📖 API Documentation
 
-Swagger UI:
-
-```
+### Local
 http://127.0.0.1:8000/api/schema/swagger-ui/
-```
 
-OpenAPI Schema:
-
-```
-http://127.0.0.1:8000/api/schema/
-```
+### Production
+https://voicebridgeai-production.up.railway.app/api/schema/swagger-ui/
 
 ---
 
@@ -185,9 +179,18 @@ pytest
 ### Test Coverage
 ![Pytest Coverage](docs/coverage_report.png)
 
+### Railway Deployment
+![Railway Deployment](docs/railway_deployment.png)
+
+
 
 ## Live Demo
-Deployment in progress. URL will be added soon.
+Production URL:
+https://voicebridgeai-production.up.railway.app
+
+Swagger UI:
+https://voicebridgeai-production.up.railway.app/api/schema/swagger-ui/
+
 
 
 ## Contributing
@@ -211,3 +214,9 @@ graph TD
     H --> I[AIResult Model]
     I --> J[Summary & Action Items]
 ```
+
+## 🚀 Deployment
+
+The application is deployed on Railway and provides a live production API for authentication, audio processing, and AI-powered summarization.
+
+Platform: Railway
