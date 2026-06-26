@@ -18,17 +18,19 @@ from django.utils.decorators import method_decorator
 def register(request):
     username = request.data.get('username')
     email = request.data.get('email')
+    password = request.data.get("password")
 
-    if not username or not email:
-        return Response(
-            {'error': 'Username and email are required.'},
-            status=400
-        )
-
-    user = User.objects.create(
-        username=username,
-        email=email
+if not username or not email or not password:
+    return Response(
+        {"error": "Username, email and password are required."},
+        status=400,
     )
+
+user = User.objects.create_user(
+    username=username,
+    email=email,
+    password=password,
+)
 
     return Response(
         {
