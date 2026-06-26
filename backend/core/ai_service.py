@@ -18,8 +18,15 @@ Format:
     "action_items": [
         "Action item 1",
         "Action item 2"
-    ]
+    ],
+    "important_names_dates": [
+    "Person name",
+    "Organization",
+    "Date",
+    "Location"
+  ]
 }}
+
 
 Transcript:
 {transcript}
