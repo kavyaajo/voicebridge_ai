@@ -12,7 +12,8 @@ def test_register_user():
         "/api/register/",
         {
             "username": "kavya",
-            "email": "kavya@test.com"
+            "email": "kavya@test.com",
+            "password":"StrongPass123"
         },
         format="json",
     )
