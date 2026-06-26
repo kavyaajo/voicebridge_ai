@@ -57,6 +57,7 @@ Transcript:
                 "transcript": transcript,
                 "summary": parsed.get("summary", ""),
                 "action_items": parsed.get("action_items", []),
+                "important_names_dates": parsed.get("important_names_dates", []),
                 "status": "success",
             }
 
@@ -66,6 +67,7 @@ Transcript:
                 "transcript": transcript,
                 "summary": text,
                 "action_items": [],
+                "important_names_dates":[],
                 "status": "fallback",
             }
 
@@ -78,6 +80,7 @@ Transcript:
                 "transcript": transcript,
                 "summary": "Gemini quota exceeded. Please try again later.",
                 "action_items": [],
+                "important_names_dates":[],
                 "status": "rate_limited",
             }
 
@@ -87,6 +90,7 @@ Transcript:
                 "transcript": transcript,
                 "summary": "Gemini service is temporarily unavailable.",
                 "action_items": [],
+                "important_names_dates":[],
                 "status": "service_unavailable",
             }
 
@@ -96,6 +100,7 @@ Transcript:
                 "transcript": transcript,
                 "summary": "Invalid or missing Gemini API key.",
                 "action_items": [],
+                "important_names_dates":[],
                 "status": "authentication_error",
             }
 
@@ -105,5 +110,6 @@ Transcript:
                 "transcript": transcript,
                 "summary": f"AI processing failed: {error_message}",
                 "action_items": [],
+                "important_names_dates":[],
                 "status": "error",
             }
