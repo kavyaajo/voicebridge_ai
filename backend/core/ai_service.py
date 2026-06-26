@@ -13,7 +13,7 @@ def generate_summary(transcript):
 Read the following transcript and return ONLY valid JSON.
 
 Format:
-{
+{{
     "summary": "A concise summary",
     "action_items": [
         "Action item 1",
@@ -25,7 +25,7 @@ Format:
     "Date",
     "Location"
   ]
-}
+}}
 
 
 Transcript:
