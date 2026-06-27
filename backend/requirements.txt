@@ -126,7 +126,7 @@ django-cors-headers
 djangorestframework-simplejwt
 supabase
 python-dotenv
-google-genai
+google-genai 
 gunicorn
 django-ratelimit==4.1.0
 

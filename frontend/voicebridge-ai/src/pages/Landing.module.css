@@ -1,0 +1,210 @@
+.main {
+  min-height: calc(100vh - 58px);
+}
+
+/* ── Hero ── */
+.hero {
+  padding: 72px 0 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.heroInner {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto;
+  padding-bottom: 52px;
+}
+
+.tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-accent-dark);
+  background: var(--color-accent-light);
+  padding: 4px 12px;
+  border-radius: 99px;
+  margin-bottom: 24px;
+  border: 1px solid #fcd34d;
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  color: var(--color-ink);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.sub {
+  font-size: 1.05rem;
+  color: var(--color-muted);
+  line-height: 1.65;
+  margin-bottom: 36px;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.heroActions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ctaPrimary {
+  background: var(--color-ink);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 11px 24px;
+  border-radius: var(--radius-sm);
+  transition: opacity 0.15s;
+}
+.ctaPrimary:hover { opacity: 0.82; }
+
+.ctaSecondary {
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+.ctaSecondary:hover { color: var(--color-ink); }
+
+/* ── Terminal preview ── */
+.terminalWrap {
+  background: var(--color-ink);
+  padding: 40px 0 0;
+}
+
+.terminalContainer {
+  max-width: 720px;
+}
+
+.terminal {
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.terminalBar {
+  background: #2d3748;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.terminalTitle {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #718096;
+  margin-left: 8px;
+}
+
+.terminalBody {
+  background: #1a202c;
+  color: #a0f0b8;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.7;
+  padding: 24px 28px 32px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ── How it works ── */
+.howItWorks {
+  padding: 72px 0;
+}
+
+.sectionEyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin-bottom: 32px;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px;
+}
+
+.step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.stepNum {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-accent);
+  background: var(--color-accent-light);
+  border: 1px solid #fcd34d;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.stepLabel {
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-bottom: 6px;
+}
+
+.stepDesc {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  line-height: 1.55;
+}
+
+/* ── Bottom CTA ── */
+.cta {
+  padding: 0 0 72px;
+}
+
+.ctaBox {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 52px 40px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.ctaTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 700;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+
+.ctaDesc {
+  color: var(--color-muted);
+  margin-bottom: 28px;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 600px) {
+  .hero { padding-top: 48px; }
+  .ctaBox { padding: 36px 20px; }
+}
