@@ -4,11 +4,12 @@ from google import genai
 
 
 
-def generate_summary(transcript):
-    client = genai.Client(
-    api_key=os.getenv("GEMINI_API_KEY")
+client = genai.Client(
+api_key=os.getenv("GEMINI_API_KEY")
 )
 
+
+def generate_summary(transcript):
     prompt = f"""
 Read the following transcript and return ONLY valid JSON.
 
@@ -18,8 +19,15 @@ Format:
     "action_items": [
         "Action item 1",
         "Action item 2"
-    ]
+    ],
+    "important_names_dates": [
+    "Person name",
+    "Organization",
+    "Date",
+    "Location"
+  ]
 }}
+
 
 Transcript:
 {transcript}
@@ -50,6 +58,7 @@ Transcript:
                 "transcript": transcript,
                 "summary": parsed.get("summary", ""),
                 "action_items": parsed.get("action_items", []),
+                "important_names_dates": parsed.get("important_names_dates", []),
                 "status": "success",
             }
 
@@ -59,6 +68,7 @@ Transcript:
                 "transcript": transcript,
                 "summary": text,
                 "action_items": [],
+                "important_names_dates":[],
                 "status": "fallback",
             }
 
@@ -71,6 +81,7 @@ Transcript:
                 "transcript": transcript,
                 "summary": "Gemini quota exceeded. Please try again later.",
                 "action_items": [],
+                "important_names_dates":[],
                 "status": "rate_limited",
             }
 
@@ -80,6 +91,7 @@ Transcript:
                 "transcript": transcript,
                 "summary": "Gemini service is temporarily unavailable.",
                 "action_items": [],
+                "important_names_dates":[],
                 "status": "service_unavailable",
             }
 
@@ -89,6 +101,7 @@ Transcript:
                 "transcript": transcript,
                 "summary": "Invalid or missing Gemini API key.",
                 "action_items": [],
+                "important_names_dates":[],
                 "status": "authentication_error",
             }
 
@@ -98,5 +111,28 @@ Transcript:
                 "transcript": transcript,
                 "summary": f"AI processing failed: {error_message}",
                 "action_items": [],
+                "important_names_dates":[],
                 "status": "error",
             }
+
+def transcribe_audio(audio_path):
+    try:
+        print("Uploading to Gemini...")
+
+        uploaded_file = client.files.upload(file=audio_path)
+
+        print("Generating transcript...")
+
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=[
+                uploaded_file,
+                "Transcribe this audio accurately. Return only the transcript."
+            ]
+        )
+
+        return response.text.strip()
+
+    except Exception as e:
+        print("TRANSCRIBE ERROR:", repr(e))
+        raise

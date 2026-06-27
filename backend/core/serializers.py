@@ -13,6 +13,7 @@ class AudioRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = AudioRecord
         fields = '__all__'
+        read_only_fields=["user","transcript"]
     def validate_transcript(self, value):
         if value and not value.strip():
             raise serializers.ValidationError(
