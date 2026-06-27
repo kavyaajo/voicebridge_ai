@@ -13,6 +13,8 @@ from .ai_service import generate_summary,transcribe_audio
 from django_ratelimit.decorators import ratelimit
 from django.utils.decorators import method_decorator
 import tempfile 
+import traceback
+
 
 """Registers a new user using username and email."""
 @api_view(['POST'])
@@ -84,34 +86,32 @@ class AudioRecordViewSet(viewsets.ModelViewSet):
         audio_file = self.request.FILES.get("audio_file")
         transcript = ""
 
-        if audio_file:
-            # Upload to Supabase
-            supabase.storage.from_("audio-files").upload(
-                audio_file.name,
-                audio_file.read()
+        try:
+            if audio_file:
+                supabase.storage.from_("audio-files").upload(
+                    audio_file.name,
+                    audio_file.read()
+                )
+
+                audio_file.seek(0)
+
+                with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp:
+                    for chunk in audio_file.chunks():
+                        temp.write(chunk)
+                    temp_path = temp.name
+
+                transcript = transcribe_audio(temp_path)
+
+            serializer.save(
+                user=self.request.user,
+                audio_file=audio_file,
+                transcript=transcript
             )
 
-            # Reset the file pointer so it can be read again
-            audio_file.seek(0)
-
-            # Save the uploaded file temporarily
-            with tempfile.NamedTemporaryFile(
-                delete=False,
-                suffix=".wav"
-            ) as temp:
-                for chunk in audio_file.chunks():
-                    temp.write(chunk)
-
-                temp_path = temp.name
-
-            # Generate transcript using Gemini
-            transcript = transcribe_audio(temp_path)
-
-        serializer.save(
-            user=self.request.user,
-            audio_file=audio_file,
-            transcript=transcript
-        )
+        except Exception as e:
+            import traceback
+            print(traceback.format_exc())
+            raise
 
     @action(detail=True, methods=["get"])
     def get_audio_file(self, request, pk=None):
@@ -124,7 +124,6 @@ class AudioRecordViewSet(viewsets.ModelViewSet):
         return Response({
             "download_url": download_url
         })
-    
 
 
 class AISummaryView(APIView):
