@@ -9,9 +9,10 @@ from .supabase_client import supabase
 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
-from .ai_service import generate_summary
+from .ai_service import generate_summary,transcribe_audio
 from django_ratelimit.decorators import ratelimit
 from django.utils.decorators import method_decorator
+import tempfile 
 
 """Registers a new user using username and email."""
 @api_view(['POST'])
@@ -73,7 +74,7 @@ def login(request):
 
 """Provides CRUD operations for uploading and managing audio records."""
 class AudioRecordViewSet(viewsets.ModelViewSet):
-    queryset = AudioRecord.objects.select_related("user").all() 
+    queryset = AudioRecord.objects.select_related("user").all()
     serializer_class = AudioRecordSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
@@ -81,16 +82,35 @@ class AudioRecordViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         audio_file = self.request.FILES.get("audio_file")
+        transcript = ""
 
         if audio_file:
+            # Upload to Supabase
             supabase.storage.from_("audio-files").upload(
                 audio_file.name,
                 audio_file.read()
             )
 
+            # Reset the file pointer so it can be read again
+            audio_file.seek(0)
+
+            # Save the uploaded file temporarily
+            with tempfile.NamedTemporaryFile(
+                delete=False,
+                suffix=".wav"
+            ) as temp:
+                for chunk in audio_file.chunks():
+                    temp.write(chunk)
+
+                temp_path = temp.name
+
+            # Generate transcript using Gemini
+            transcript = transcribe_audio(temp_path)
+
         serializer.save(
             user=self.request.user,
-            audio_file=audio_file
+            audio_file=audio_file,
+            transcript=transcript
         )
 
     @action(detail=True, methods=["get"])

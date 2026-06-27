@@ -4,11 +4,12 @@ from google import genai
 
 
 
-def generate_summary(transcript):
-    client = genai.Client(
-    api_key=os.getenv("GEMINI_API_KEY")
+client = genai.Client(
+api_key=os.getenv("GEMINI_API_KEY")
 )
 
+
+def generate_summary(transcript):
     prompt = f"""
 Read the following transcript and return ONLY valid JSON.
 
@@ -113,3 +114,16 @@ Transcript:
                 "important_names_dates":[],
                 "status": "error",
             }
+
+def transcribe_audio(audio_path):
+    uploaded_file = client.files.upload(file=audio_path)
+
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=[
+        uploaded_file,
+         "Transcribe this audio accurately. Return only the transcript."
+        ]
+    )
+
+    return response.text.strip()
