@@ -116,14 +116,23 @@ Transcript:
             }
 
 def transcribe_audio(audio_path):
-    uploaded_file = client.files.upload(file=audio_path)
+    try:
+        print("Uploading to Gemini...")
 
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=[
-        uploaded_file,
-         "Transcribe this audio accurately. Return only the transcript."
-        ]
-    )
+        uploaded_file = client.files.upload(file=audio_path)
 
-    return response.text.strip()
+        print("Generating transcript...")
+
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=[
+                uploaded_file,
+                "Transcribe this audio accurately. Return only the transcript."
+            ]
+        )
+
+        return response.text.strip()
+
+    except Exception as e:
+        print("TRANSCRIBE ERROR:", repr(e))
+        raise
