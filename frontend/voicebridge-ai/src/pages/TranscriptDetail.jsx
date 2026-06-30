@@ -28,12 +28,15 @@ export default function TranscriptDetail() {
   }, [id])
 
   const fetchRecord = async () => {
-    setLoading(true)
-    setError('')
-    try {
-      const { data } = await getAudioRecord(id)
-      setRecord(data)
-    } catch (err) {
+  setLoading(true)
+  setError('')
+  try {
+    const { data } = await getAudioRecord(id)
+
+    console.log(data)   // <-- Add this line
+
+    setRecord(data)
+  } catch (err) {
       setError(err.response?.status === 404 ? 'Record not found.' : 'Failed to load record.')
     } finally {
       setLoading(false)

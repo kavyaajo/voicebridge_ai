@@ -132,6 +132,7 @@ class AISummaryView(APIView):
     def post(self, request):
         transcript = request.data.get("transcript", "")
         audio_id = request.data.get("audio_id")  # optional
+        print("Audio ID:",audio_id)
         
 
         if not transcript:

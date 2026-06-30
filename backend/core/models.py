@@ -14,12 +14,14 @@ class AudioRecord(models.Model):
 
 
 class AIResult(models.Model):
-    """Stores AI-generated summaries and key points for an audio recording."""
     audio = models.OneToOneField(AudioRecord, on_delete=models.CASCADE)
-    summary = models.TextField()
-    key_points = models.TextField()
-    translation = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"AI Result for {self.audio.id}"
+    summary = models.TextField()
+
+    action_items = models.TextField(blank=True, default="")
+
+    important_names_dates = models.TextField(blank=True, default="")
+
+    translation = models.TextField(blank=True, default="")
+
+    created_at = models.DateTimeField(auto_now_add=True)
