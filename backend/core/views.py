@@ -150,16 +150,15 @@ class AISummaryView(APIView):
                 try:
                     audio_record = AudioRecord.objects.get(id=audio_id)
 
-                    AIResult.objects.update_or_create(
-                        audio=audio_record,
-                        defaults={
-                            "summary": result.get("summary", ""),
-                            "key_points": "\n".join(
-                                result.get("action_items", [])
-                            ),
-                            "translation": ""
-                        }
-                    )
+                   AIResult.objects.update_or_create(
+    audio=audio_record,
+    defaults={
+        "summary": result.get("summary", ""),
+        "action_items": "\n".join(result.get("action_items", [])),
+        "important_names_dates": ", ".join(result.get("important_names_dates", [])),
+        "translation": "",
+    }
+)
 
                 except AudioRecord.DoesNotExist:
                     return Response(
