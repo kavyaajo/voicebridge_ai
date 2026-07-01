@@ -50,8 +50,9 @@ export default function TranscriptDetail() {
     try {
       const payload = { audio_id: record.id }
       if (record.transcript) payload.transcript = record.transcript
+      console.log("Payload:",payload);
       const { data } = await generateSummary(payload)
-      setRecord((prev) => ({ ...prev, ...data }))
+      await fetchRecord(); 
     } catch (err) {
       setSummaryError(err.response?.data?.detail || 'Summary generation failed.')
     } finally {
@@ -59,17 +60,17 @@ export default function TranscriptDetail() {
     }
   }
 
-  const actionItems = Array.isArray(record?.action_items)
-    ? record.action_items
-    : typeof record?.action_items === 'string'
-      ? record.action_items.split('\n').filter(Boolean)
-      : []
+  const actionItems = Array.isArray(record?.ai_result?.action_items)
+  ? record.ai_result.action_items
+  : typeof record?.ai_result?.action_items === "string"
+    ? record.ai_result.action_items.split("\n").filter(Boolean)
+    : [];
 
-  const keyDetails = Array.isArray(record?.important_names_dates)
-    ? record.important_names_dates
-    : typeof record?.important_names_dates === 'string'
-      ? record.important_names_dates.split(',').map((s) => s.trim()).filter(Boolean)
-      : []
+  const keyDetails = Array.isArray(record?.ai_result?.important_names_dates)
+  ? record.ai_result.important_names_dates
+  : typeof record?.ai_result?.important_names_dates === "string"
+    ? record.ai_result.important_names_dates.split(",").map(s => s.trim()).filter(Boolean)
+    : []; 
 
   if (loading) {
     return (
@@ -114,11 +115,11 @@ export default function TranscriptDetail() {
 
         <Alert type="error" message={summaryError} />
 
-        {record.summary ? (
+         {record.ai_result?.summary ? (
           <div className={styles.results}>
             <Card>
               <p className={styles.cardLabel}>Summary</p>
-              <p className={styles.summaryText}>{record.summary}</p>
+              <p className={styles.summaryText}>{record.ai_result?.summary}</p> 
             </Card>
 
             {actionItems.length > 0 && (
