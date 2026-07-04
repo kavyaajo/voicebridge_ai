@@ -3,62 +3,69 @@ import os
 
 from google import genai
 
-from .agent_tools import search_meetings, generate_followup_email
+from .agent_tools import(
+ search_meetings, generate_followup_email,
+ ) 
+
+from .function_declarations import (
+    search_meetings_declaration,
+    generate_followup_email_declaration,
+)
 
 client = genai.Client(
     api_key=os.getenv("GEMINI_API_KEY")
 )
 
 TOOLS = [
-    {
-        "name": "search_meetings",
-        "description": "Search previous meetings by keyword.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "keyword": {
-                    "type": "string",
-                    "description": "Keyword to search for."
-                }
-            },
-            "required": ["keyword"]
-        }
-    },
-    {
-        "name": "generate_followup_email",
-        "description": "Generate a follow-up email from a meeting summary.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "summary": {
-                    "type": "string"
-                }
-            },
-            "required": ["summary"]
-        }
-    }
+   search_meetings,
+    generate_followup_email,
 ]
 
 def run_agent(query):
-    prompt = f"""
-You are VoiceBridge AI.
-
-You have these tools:
-1. search_meetings(keyword)
-2. generate_followup_email(summary)
-
-If the user asks about previous meetings, use search_meetings.
-If the user asks to draft an email, use generate_followup_email.
-
-User:
-{query}
-"""
-
     response = client.models.generate_content(
         model="gemini-2.5-flash",
-        contents=prompt,
+        contents=query,
+        config={
+            "tools": TOOLS,
+        },
     )
 
-    return response.text
+    # If Gemini didn't call any function
+    if not response.function_calls:
+        return response.text
+
+    function_call = response.function_calls[0]
+
+    # Execute the requested function
+    if function_call.name == "search_meetings":
+        result = search_meetings(**function_call.args)
+
+    elif function_call.name == "generate_followup_email":
+        result = generate_followup_email(**function_call.args)
+
+    else:
+        result = {"error": "Unknown function"}
+
+    # Send the function result back to Gemini
+    final_response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=[
+            response.candidates[0].content,
+            genai.types.Content(
+                role="user",
+                parts=[
+                    genai.types.Part.from_function_response(
+                        name=function_call.name,
+                        response={"result": result},
+                    )
+                ],
+            ),
+        ],
+        config={
+            "tools": TOOLS,
+        },
+    )
+
+    return final_response.text 
 
     

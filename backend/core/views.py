@@ -14,7 +14,7 @@ from django_ratelimit.decorators import ratelimit
 from django.utils.decorators import method_decorator
 import tempfile 
 import traceback
-from .agent_tools import search_previous_meetings, generate_followup_email
+from .agent_tools import search_meetings, generate_followup_email
 from .agent_service import run_agent
 
 
@@ -174,25 +174,12 @@ class AISummaryView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 class AgentView(APIView):
-    """
-    AI Agent API
-    """
-
     def post(self, request):
         query = request.data.get("query", "")
 
         if not query:
-            return Response(
-                {"error": "Query is required"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({"error": "Query is required"}, status=400)
 
-        try:
-            result = run_agent(query)
-            return Response(result)
+        response = run_agent(query)
 
-        except Exception as e:
-            return Response(
-                {"error": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+        return Response({"response": response})
