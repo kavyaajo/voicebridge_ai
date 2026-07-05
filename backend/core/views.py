@@ -14,6 +14,8 @@ from django_ratelimit.decorators import ratelimit
 from django.utils.decorators import method_decorator
 import tempfile 
 import traceback
+from .agent_tools import search_meetings, generate_followup_email
+from .agent_service import run_agent
 
 
 """Registers a new user using username and email."""
@@ -171,4 +173,13 @@ class AISummaryView(APIView):
                 {"error": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-    
+class AgentView(APIView):
+    def post(self, request):
+        query = request.data.get("query", "")
+
+        if not query:
+            return Response({"error": "Query is required"}, status=400)
+
+        response = run_agent(query)
+
+        return Response({"response": response})
