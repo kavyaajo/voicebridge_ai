@@ -8,9 +8,11 @@ import History from './pages/History'
 import TranscriptDetail from './pages/TranscriptDetail'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import Agent from './pages/Agent'
 
 function PrivateRoute({ children }) {
   const { user } = useAuth()
+
   return user ? children : <Navigate to="/login" replace />
 }
 
@@ -22,14 +24,50 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
-        <Route path="/register" element={user ? <Navigate to="/dashboard" replace /> : <Register />} />
-        <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-        <Route path="/history" element={<PrivateRoute><History /></PrivateRoute>} />
-        <Route path="/transcripts/:id" element={<PrivateRoute><TranscriptDetail /></PrivateRoute>} />
+        <Route
+          path="/login"
+          element={user ? <Navigate to="/dashboard" replace /> : <Login />}
+        />
+        <Route
+          path="/register"
+          element={user ? <Navigate to="/dashboard" replace /> : <Register />}
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/history"
+          element={
+            <PrivateRoute>
+              <History />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/transcripts/:id"
+          element={
+            <PrivateRoute>
+              <TranscriptDetail />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/agent"
+          element={
+            <PrivateRoute>
+              <Agent />
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Footer />
     </>
   )
 }
+

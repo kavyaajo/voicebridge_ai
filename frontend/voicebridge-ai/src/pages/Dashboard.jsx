@@ -5,6 +5,7 @@ import Button from '../components/Button'
 import Alert from '../components/Alert'
 import Card from '../components/Card'
 import styles from './Dashboard.module.css'
+import { Link } from "react-router-dom"; 
 
 const TABS = ['Paste transcript', 'Upload audio']
 
@@ -55,7 +56,7 @@ export default function Dashboard() {
       const payload = {}
       if (audioId) payload.audio_id = audioId
       if (transcript.trim()) payload.transcript = transcript.trim()
-      const { data } = await generateSummary(payload)
+      const { data } = await generateSummary(payload) 
       console.log(data) 
       setResult(data)
     } catch (err) {
@@ -73,11 +74,31 @@ export default function Dashboard() {
       <div className={`container ${styles.inner}`}>
 
         <div className={styles.greeting}>
-          <h1 className={styles.title}>
-            Hey, {user?.username} —
-          </h1>
-          <p className={styles.sub}>Paste a transcript or upload audio to get your summary.</p>
-        </div>
+  <h1 className={styles.title}>
+    Hey, {user?.username} —
+  </h1>
+
+  <p className={styles.sub}>
+    Paste a transcript or upload audio to get your summary.
+  </p>
+
+  <Link to="/agent">
+    <button
+      style={{
+        marginTop: "15px",
+        padding: "10px 20px",
+        background: "#2563eb",
+        color: "white",
+        border: "none",
+        borderRadius: "8px",
+        cursor: "pointer",
+        fontWeight: "bold",
+      }}
+    >
+      🤖 VoiceBridge AI Assistant
+    </button>
+  </Link>
+</div>
 
         <div className={styles.workArea}>
           <div className={styles.inputPanel}>
