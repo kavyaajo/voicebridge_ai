@@ -395,43 +395,44 @@ The exported Postman collection is available in this repository as `Voicebridge_
 ```mermaid
 flowchart TD
 
-A[User] --> B[React Frontend (Vite)]
+A[User]
+B[React Frontend]
+C[Django REST API]
+D[JWT Authentication]
+E[Audio Upload]
+F[Supabase Storage]
+G[Speech-to-Text]
+H[Gemini 2.5 Flash]
+I[AI Summary]
+J[Action Items]
+K[Names and Dates]
+L[PostgreSQL Database]
+M[Meeting History]
+N[AI Assistant]
+O[Function Calling]
+P[Meeting Search]
+Q[Follow-up Email]
 
-B --> C[Django REST Framework API]
-
-C --> D[JWT Authentication]
-
-C --> E[Audio Upload]
-
-E --> F[Supabase Storage]
-
-E --> G[Speech-to-Text Processing]
-
-G --> H[Google Gemini 2.5 Flash]
-
-H --> I[AI Summary]
-
-H --> J[Action Items]
-
-H --> K[Important Names and Dates]
-
-C --> L[PostgreSQL Database]
-
-L --> M[Meeting History]
-
-B --> N[VoiceBridge AI Assistant]
-
+A --> B
+B --> C
+C --> D
+C --> E
+E --> F
+E --> G
+G --> H
+H --> I
+H --> J
+H --> K
+C --> L
+L --> M
+B --> N
 N --> C
-
-C --> O[Gemini Function Calling]
-
-O --> P[Search Previous Meetings]
-
-O --> Q[Generate Follow-up Email]
-
+C --> O
+O --> P
+O --> Q
 P --> L
-
 Q --> L
+
 ```
 
 ## 🚀 Deployment
