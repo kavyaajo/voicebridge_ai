@@ -1,55 +1,128 @@
 # 🎙️ VoiceBridge AI
 
-VoiceBridge AI is an AI-powered speech assistant built using Django REST Framework. Users can upload audio recordings and receive accurate transcripts, concise AI-generated summaries, and extracted action items. The project is designed to improve accessibility and productivity by transforming spoken content into structured text.
+![Python](https://img.shields.io/badge/Python-3.13-blue)
+![Django](https://img.shields.io/badge/Django-REST_Framework-green)
+![React](https://img.shields.io/badge/React-Vite-61DAFB)
+![Gemini](https://img.shields.io/badge/AI-Google_Gemini-orange)
+![Supabase](https://img.shields.io/badge/Supabase-Storage-success)
+![Railway](https://img.shields.io/badge/Backend-Railway-purple)
+![Vercel](https://img.shields.io/badge/Frontend-Vercel-black) 
+
+VoiceBridge AI is an AI-powered meeting assistant that helps users transform meeting audio or transcripts into structured insights. The platform generates AI-powered summaries, extracts action items and important names/dates, stores meeting history, and includes an intelligent AI Assistant capable of searching previous meetings and generating professional follow-up emails using Gemini Function Calling.
 
 ---
 
 ## 🚀 Features
 
-- 🔐 User Registration & JWT Authentication
-- 🎤 Audio Upload API
-- 📝 Automatic Speech-to-Text Transcription
-- 🤖 AI-Powered Summarization
-- ✅ Action Item Extraction
-- 💾 Store Records in Database
-- 📚 Interactive Swagger/OpenAPI Documentation
-- 🔄 Secure REST APIs using Django REST Framework
+### Authentication
+- JWT Authentication
+- User Login & Registration
+
+### Meeting Processing
+- Upload Meeting Audio
+- Paste Meeting Transcript
+- Speech-to-Text Transcription
+- AI Meeting Summary
+- Action Item Extraction
+- Important Names & Dates Extraction
+
+### Meeting History
+- Store Previous Meetings
+- View Meeting Details
+- Search Past Meetings
+
+### AI Assistant
+- Search previous meetings using natural language
+- Generate professional follow-up emails
+- Gemini Function Calling
+
+### Deployment
+- Railway Backend
+- Vercel Frontend
 
 ---
 
 ## 🛠️ Tech Stack
 
-- Python 3
+Frontend
+- React
+- Vite
+- Axios
+- React Router
+
+Backend
+- Python
 - Django
 - Django REST Framework
-- JWT Authentication (`simplejwt`)
-- drf-spectacular (Swagger/OpenAPI)
-- Supabase (for data storage)
-- AI Model Integration (Gemini/OpenAI compatible)
-- SQLite (development)
+
+Authentication
+- JWT
+
+Database
+- PostgreSQL
+
+Storage
+- Supabase
+
+AI
+- Google Gemini 2.5 Flash
+- Gemini Function Calling
+
+Deployment
+- Railway
+- Vercel
 
 ---
 
 ## 📂 Project Structure
 
+```text
+voicebridge_ai/
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── context/
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── public/
+│   └── package.json
+│
+├── backend/
+│   ├── core/
+│   │   ├── views.py
+│   │   ├── serializers.py
+│   │   ├── models.py
+│   │   ├── agent_service.py
+│   │   ├── agent_tools.py
+│   │   └── function_declarations.py
+│   ├── voicebridge_backend/
+│   ├── manage.py
+│   └── requirements.txt
+│
+├── docs/
+└── README.md
 ```
-backend/
-│── core/
-│── audio/
-│── voicebridge_backend/
-│── manage.py
-│── requirements.txt
-```
-
----
 
 ## ⚙️ Installation
 
-Clone the repository:
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/kavyaajo/voicebridge_ai.git
 cd voicebridge_ai
+```
+
+---
+
+## 🖥️ Backend Setup
+
+Navigate to the backend directory:
+
+```bash
+cd backend
 ```
 
 Create a virtual environment:
@@ -58,15 +131,15 @@ Create a virtual environment:
 python -m venv venv
 ```
 
-Activate it:
+Activate the virtual environment:
 
-Windows
+**Windows**
 
 ```bash
 venv\Scripts\activate
 ```
 
-Linux/macOS
+**Linux/macOS**
 
 ```bash
 source venv/bin/activate
@@ -78,61 +151,138 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-Run migrations:
+Run database migrations:
 
 ```bash
 python manage.py migrate
 ```
 
-Start the server:
+Start the Django development server:
 
 ```bash
 python manage.py runserver
 ```
 
+The backend will be available at:
+
+```
+http://127.0.0.1:8000
+```
+
 ---
 
-## 📖 API Documentation
+## 🌐 Frontend Setup
 
-### Local
+Open a new terminal and navigate to the frontend directory:
+
+```bash
+cd frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the React development server:
+
+```bash
+npm run dev
+```
+
+The frontend will be available at:
+
+```
+http://localhost:5173
+```
+
+## 📖 API Documentation & Live Demo
+
+### 🌐 Frontend (Live Demo)
+
+https://voicebridge-ai-mu.vercel.app
+
+---
+
+### ⚙️ Backend API
+
+https://voicebridgeai-production.up.railway.app
+
+---
+
+### 📚 Swagger UI
+
+**Local**
+
+```text
 http://127.0.0.1:8000/api/schema/swagger-ui/
+```
 
-### Production
+**Production**
+
+```text
 https://voicebridgeai-production.up.railway.app/api/schema/swagger-ui/
+```
+
+---
+
+### 📄 OpenAPI Schema
+
+**Local**
+
+```text
+http://127.0.0.1:8000/api/schema/
+```
+
+**Production**
+
+```text
+https://voicebridgeai-production.up.railway.app/api/schema/
+```
 
 ---
 
 ## 🔄 Workflow
 
 ```
-Start
-   │
-   ▼
-Login / Register
-   │
-   ▼
-Home Dashboard
-   │
-   ▼
-Upload Audio
-   │
-   ▼
-Generate Transcript
-   │
-   ▼
-AI Summarization
-   │
-   ▼
+User Login
+
+↓
+
+Workspace
+
+↓
+
+Upload Audio / Paste Transcript
+
+↓
+
+Speech-to-Text
+
+↓
+
+AI Summary
+
+↓
+
 Extract Action Items
-   │
-   ▼
-Save Results
-   │
-   ▼
-Display Summary
-   │
-   ▼
-Complete
+
+↓
+
+Store Meeting
+
+↓
+
+History
+
+↓
+
+AI Assistant
+
+↓
+
+Search Meetings / Generate Follow-up Email
 ```
 
 ---
@@ -142,27 +292,72 @@ Complete
 | Method | Endpoint | Description |
 |---------|----------|-------------|
 | POST | `/api/register/` | Register a new user |
-| POST | `/api/login/` | User login |
-| POST | `/api/token/` | Obtain JWT token |
-| POST | `/api/token/refresh/` | Refresh JWT token |
-| POST | `/api/ai/summary/` | Generate AI summary |
-| GET | `/audio-records/` | List audio records |
-| POST | `/audio-records/` | Upload new audio |
+| POST | `/api/login/` | Authenticate user |
+| POST | `/api/token/` | Obtain JWT access and refresh tokens |
+| POST | `/api/token/refresh/` | Refresh JWT access token |
+| POST | `/api/ai/summary/` | Generate AI-powered meeting summary |
+| POST | `/api/agent/` | Query the AI Assistant (Gemini Function Calling) |
+| GET | `/audio-records/` | Retrieve uploaded audio records |
+| POST | `/audio-records/` | Upload a new audio recording |
+| GET | `/audio-records/{id}/` | Retrieve details of a specific audio record |
+| GET | `/audio-records/{id}/get_audio_file/` | Download the uploaded audio file |
+
 
 ---
 
 ## 🧪 Testing
 
-Run tests with:
+The application was tested across both the frontend and backend to ensure reliable functionality.
+
+### Backend Testing
+
+Run the Django test suite:
 
 ```bash
 python manage.py test
 ```
-# or
+
+or, if using pytest:
+
+```bash
 pytest
+```
+
+### Manual Functional Testing
+
+The following features were verified:
+
+- ✅ User Registration & Login
+- ✅ JWT Authentication
+- ✅ Audio Upload
+- ✅ Speech-to-Text Transcription
+- ✅ AI-Powered Meeting Summarization
+- ✅ Action Item Extraction
+- ✅ Important Names & Dates Extraction
+- ✅ Meeting History
+- ✅ AI Assistant (Gemini Function Calling)
+- ✅ Previous Meeting Search
+- ✅ Follow-up Email Generation
+- ✅ Railway Backend Deployment
+- ✅ Vercel Frontend Deployment 
 
 
 ## 📸 Screenshots
+
+### 🏠 Landing Page
+![Landing Page](docs/landing_page.png)
+
+### 📊 Dashboard
+![Dashboard](docs/dashboard.png)
+
+### 🎤 Audio Upload
+![Audio Upload](docs/audio_upload.png)
+
+### 🤖 AI Summary
+![AI Summary](docs/ai_summary.png)
+
+### 📜 Meeting History
+![Meeting History](docs/meeting_history.png)
 
 ### Swagger UI
 ![Swagger UI](docs/Swagger_UI.jpeg)
@@ -170,25 +365,20 @@ pytest
 ### MkDocs Documentation
 ![MkDocs](docs/MkDocs.jpeg)
 
-### AI Summary API
-![AI Summary](docs/AI_summary_endpoint.png)
-
-### Audio Upload API
-![Audio Upload](docs/audio_upload_endpoint.png)
-
 ### Test Coverage
 ![Pytest Coverage](docs/coverage_report.png)
 
-### Railway Deployment
-![Railway Deployment](docs/railway_deployment.png)
 
 
 
 ## Live Demo
-Production URL:
+Frontend
+https://voicebridge-ai-mu.vercel.app
+
+Backend 
 https://voicebridgeai-production.up.railway.app
 
-Swagger UI:
+Swagger
 https://voicebridgeai-production.up.railway.app/api/schema/swagger-ui/
 
 
@@ -203,20 +393,68 @@ The exported Postman collection is available in this repository as `Voicebridge_
 ## 🏗️ Architecture Diagram
 
 ```mermaid
-graph TD
-    A[User] --> B[REST API]
-    B --> C[Authentication]
-    B --> D[Audio Upload]
-    D --> E[Supabase Storage]
-    D --> F[AudioRecord Model]
-    B --> G[AI Summary Endpoint]
-    G --> H[AI Service]
-    H --> I[AIResult Model]
-    I --> J[Summary & Action Items]
+flowchart TD
+
+A[User]
+B[React Frontend]
+C[Django REST API]
+D[JWT Authentication]
+E[Audio Upload]
+F[Supabase Storage]
+G[Speech-to-Text]
+H[Gemini 2.5 Flash]
+I[AI Summary]
+J[Action Items]
+K[Names and Dates]
+L[PostgreSQL Database]
+M[Meeting History]
+N[AI Assistant]
+O[Function Calling]
+P[Meeting Search]
+Q[Follow-up Email]
+
+A --> B
+B --> C
+C --> D
+C --> E
+E --> F
+E --> G
+G --> H
+H --> I
+H --> J
+H --> K
+C --> L
+L --> M
+B --> N
+N --> C
+C --> O
+O --> P
+O --> Q
+P --> L
+Q --> L
+
 ```
 
 ## 🚀 Deployment
 
-The application is deployed on Railway and provides a live production API for authentication, audio processing, and AI-powered summarization.
+VoiceBridge AI is deployed using a modern cloud architecture for scalability and accessibility.
 
-Platform: Railway
+| Service | Platform |
+|---------|----------|
+| Frontend | Vercel |
+| Backend | Railway |
+| Database | PostgreSQL |
+| File Storage | Supabase Storage |
+| AI Model | Google Gemini 2.5 Flash |
+
+
+## 👨‍💻 Author
+
+**Kavya Ajo**
+
+- GitHub: https://github.com/kavyaajo
+- LinkedIn: https://www.linkedin.com/in/kavya-ajo/
+
+If you found this project useful, consider giving it a ⭐ on GitHub.
+
+
